@@ -1,0 +1,191 @@
+// =========================================================
+//  Globala stilar – Bootstrap med egna färger och typsnitt
+// =========================================================
+
+// Egna Bootstrap-variabler (måste stå före importen)
+$primary: #2e5e4e;
+$success: #2f8f5b;
+$danger: #b9443a;
+$warning: #d99a2b;
+$info: #3a7ca5;
+
+$body-bg: #f6f3ec;
+$body-color: #22272b;
+$body-bg-dark: #121517;
+$body-color-dark: #e3e6e8;
+
+$font-family-sans-serif: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+$headings-font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+$headings-font-weight: 600;
+
+$border-radius: 0.6rem;
+$border-radius-sm: 0.45rem;
+$border-radius-lg: 0.9rem;
+
+$link-decoration: none;
+$focus-ring-opacity: 0.3;
+
+@import 'bootstrap/scss/bootstrap';
+
+// ---------- Egna temavariabler (ljust / mörkt) ----------
+:root,
+[data-bs-theme='light'] {
+  --app-surface: #ffffff;
+  --app-surface-2: #efe9dc;
+  --app-border: #e4ddcd;
+  --app-accent: #b8782f;
+  --app-brand: #{$primary};
+  --app-brand-soft: rgba(46, 94, 78, 0.1);
+  --app-shadow: 0 1px 2px rgba(34, 39, 43, 0.04), 0 6px 18px rgba(34, 39, 43, 0.06);
+  --app-navbar-bg: rgba(255, 255, 255, 0.85);
+}
+
+[data-bs-theme='dark'] {
+  --app-surface: #1a1e21;
+  --app-surface-2: #22272b;
+  --app-border: #2e3439;
+  --app-accent: #e0b46f;
+  --app-brand: #7fbfa5;
+  --app-brand-soft: rgba(127, 191, 165, 0.12);
+  --app-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+  --app-navbar-bg: rgba(26, 30, 33, 0.85);
+
+  // Bootstraps "outline-primary" använder samma mörkgröna i båda teman,
+  // vilket blir svårläst på mörk bakgrund. Ljusare variant här.
+  .btn-outline-primary {
+    --bs-btn-color: #7fbfa5;
+    --bs-btn-border-color: #4f8a74;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #3b7561;
+    --bs-btn-hover-border-color: #3b7561;
+    --bs-btn-active-bg: #3b7561;
+    --bs-btn-active-border-color: #3b7561;
+  }
+
+  .btn-primary {
+    --bs-btn-bg: #3b7561;
+    --bs-btn-border-color: #3b7561;
+    --bs-btn-hover-bg: #468a72;
+    --bs-btn-hover-border-color: #468a72;
+    --bs-btn-active-bg: #468a72;
+    --bs-btn-disabled-bg: #3b7561;
+    --bs-btn-disabled-border-color: #3b7561;
+  }
+}
+
+// ---------- Grundlayout ----------
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+h1,
+h2,
+.display-title {
+  letter-spacing: -0.01em;
+}
+
+// Kort och ytor
+.card {
+  --bs-card-bg: var(--app-surface);
+  --bs-card-border-color: var(--app-border);
+  --bs-card-cap-bg: transparent;
+  box-shadow: var(--app-shadow);
+}
+
+.form-control,
+.form-select,
+.input-group-text {
+  --bs-border-color: var(--app-border);
+}
+
+.form-control,
+.form-select {
+  background-color: var(--app-surface);
+}
+
+.input-group-text {
+  background-color: var(--app-surface-2);
+  color: var(--bs-secondary-color);
+}
+
+.text-brand {
+  color: var(--app-brand) !important;
+}
+
+.text-accent {
+  color: var(--app-accent) !important;
+}
+
+// Sidrubrik som används på flera sidor
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  h1 {
+    margin-bottom: 0.25rem;
+  }
+}
+
+.page-eyebrow {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--app-accent);
+}
+
+// Ikonknappar (t.ex. redigera/radera i citatkorten)
+.btn-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+// Tomt läge
+.empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+
+  .empty-icon {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--app-brand-soft);
+    color: var(--app-brand);
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+}
+
+// Respektera användare som inte vill ha animationer
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

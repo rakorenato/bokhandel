@@ -1,0 +1,76 @@
+<div class="auth-wrapper">
+  <div class="card auth-card">
+    <div class="card-body p-4 p-sm-5">
+      <div class="text-center mb-4">
+        <span class="auth-icon"><i class="fa-solid fa-book-open-reader"></i></span>
+        <h1 class="h3 mt-3 mb-1">Välkommen tillbaka</h1>
+        <p class="text-body-secondary mb-0">Logga in för att se dina böcker och citat.</p>
+      </div>
+
+      @if (registered()) {
+        <div class="alert alert-success d-flex gap-2" role="status">
+          <i class="fa-solid fa-circle-check mt-1"></i>
+          <span>Kontot är skapat! Logga in med ditt nya användarnamn och lösenord.</span>
+        </div>
+      }
+      @if (expired()) {
+        <div class="alert alert-warning d-flex gap-2" role="status">
+          <i class="fa-solid fa-clock mt-1"></i>
+          <span>Din session har gått ut. Logga in igen för att fortsätta.</span>
+        </div>
+      }
+      @if (error()) {
+        <div class="alert alert-danger d-flex gap-2" role="alert">
+          <i class="fa-solid fa-circle-exclamation mt-1"></i>
+          <span>{{ error() }}</span>
+        </div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="mb-3">
+          <label for="username" class="form-label">Användarnamn</label>
+          <div class="input-group has-validation">
+            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+            <input id="username" type="text" class="form-control" formControlName="username"
+                   autocomplete="username" autocapitalize="none" [class.is-invalid]="isInvalid('username')">
+            <div class="invalid-feedback">Fyll i ditt användarnamn.</div>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="password" class="form-label">Lösenord</label>
+          <div class="input-group has-validation">
+            <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+            <input id="password" [type]="showPassword() ? 'text' : 'password'" class="form-control"
+                   formControlName="password" autocomplete="current-password" [class.is-invalid]="isInvalid('password')">
+            <button type="button" class="btn btn-outline-secondary toggle-password" (click)="showPassword.set(!showPassword())"
+                    [attr.aria-label]="showPassword() ? 'Dölj lösenord' : 'Visa lösenord'">
+              <i class="fa-regular" [class.fa-eye]="!showPassword()" [class.fa-eye-slash]="showPassword()"></i>
+            </button>
+            <div class="invalid-feedback">Fyll i ditt lösenord.</div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="loading()">
+          @if (loading()) {
+            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Loggar in…
+          } @else {
+            <i class="fa-solid fa-right-to-bracket me-2"></i>Logga in
+          }
+        </button>
+
+        @if (slowServer()) {
+          <p class="small text-body-secondary text-center mt-3 mb-0">
+            <i class="fa-solid fa-mug-hot me-1"></i>
+            Servern håller på att vakna. Första inloggningen kan ta upp till en minut.
+          </p>
+        }
+      </form>
+
+      <hr class="my-4">
+      <p class="text-center mb-0">
+        Inget konto än? <a routerLink="/register" class="fw-semibold">Skapa ett här</a>
+      </p>
+    </div>
+  </div>
+</div>

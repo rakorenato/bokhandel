@@ -1,0 +1,47 @@
+.min-w-0 {
+  min-width: 0;
+}
+
+// Formuläret följer med när man scrollar på stora skärmar
+@media (min-width: 992px) {
+  .form-card {
+    position: sticky;
+    top: 5.5rem;
+  }
+}
+
+.form-card.is-editing {
+  border-color: var(--app-accent);
+}
+
+.quote-card {
+  border-left: 4px solid var(--app-brand);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+
+  &:hover {
+    transform: translateX(2px);
+  }
+
+  &.is-editing {
+    border-color: var(--app-accent);
+  }
+}
+
+.quote-mark {
+  font-size: 1.5rem;
+  color: var(--app-accent);
+  opacity: 0.8;
+  margin-top: 0.15rem;
+}
+
+.quote-text {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 6rem;
+}

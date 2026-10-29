@@ -1,0 +1,32 @@
+@if (open()) {
+  <div class="modal d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="confirm-title"
+       (click)="!busy() && cancelled.emit()">
+    <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+      <div class="modal-content">
+        <div class="modal-header border-0 pb-0">
+          <div class="d-flex align-items-center gap-3">
+            <span class="danger-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+            <h2 class="modal-title h5 mb-0" id="confirm-title">{{ title() }}</h2>
+          </div>
+        </div>
+        <div class="modal-body">
+          <ng-content />
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-outline-secondary" (click)="cancelled.emit()" [disabled]="busy()">
+            Avbryt
+          </button>
+          <button type="button" class="btn btn-danger" (click)="confirmed.emit()" [disabled]="busy()">
+            @if (busy()) {
+              <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+            } @else {
+              <i class="fa-solid fa-trash-can me-1"></i>
+            }
+            {{ confirmText() }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop show"></div>
+}

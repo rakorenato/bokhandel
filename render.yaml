@@ -1,0 +1,15 @@
+# Render Blueprint för API:t (valfritt – går också att skapa tjänsten manuellt, se README)
+services:
+  - type: web
+    name: bokhandel-api
+    runtime: docker
+    plan: free
+    rootDir: server
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      - key: Jwt__Key
+        generateValue: true
+      - key: Cors__AllowedOrigins__0
+        sync: false # fyll i din Netlify-adress, t.ex. https://bokhandel-renato.netlify.app

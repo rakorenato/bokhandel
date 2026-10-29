@@ -1,0 +1,13 @@
+# Netlify-inställningar (sätt "Base directory" till client på Netlify)
+[build]
+  command = "npm run build"
+  publish = "dist/client/browser"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Angular sköter routingen själv, så alla adresser ska ge index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

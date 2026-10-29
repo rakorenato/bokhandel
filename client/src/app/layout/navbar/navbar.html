@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg sticky-top app-navbar" aria-label="Huvudmeny">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/">
+      <span class="brand-mark"><i class="fa-solid fa-book-open"></i></span>
+      <span class="brand-text">Bokhandel</span>
+    </a>
+
+    <!-- Temaknapp + hamburgarmeny (alltid synliga, hamnar sist på stora skärmar) -->
+    <div class="d-flex align-items-center gap-2 order-lg-last ms-lg-3">
+      <button type="button" class="btn btn-theme" (click)="theme.toggle()"
+              [attr.aria-label]="theme.theme() === 'dark' ? 'Byt till ljust tema' : 'Byt till mörkt tema'"
+              [title]="theme.theme() === 'dark' ? 'Ljust tema' : 'Mörkt tema'">
+        <i class="fa-solid" [class.fa-sun]="theme.theme() === 'dark'" [class.fa-moon]="theme.theme() === 'light'"></i>
+      </button>
+
+      <button class="navbar-toggler" type="button" (click)="toggleMenu()"
+              aria-controls="main-nav" [attr.aria-expanded]="menuOpen()" aria-label="Visa eller dölj meny">
+        <i class="fa-solid" [class.fa-bars]="!menuOpen()" [class.fa-xmark]="menuOpen()"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-nav" [class.show]="menuOpen()">
+      @if (auth.isLoggedIn()) {
+        <ul class="navbar-nav me-auto ms-lg-4 gap-lg-1">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/books" routerLinkActive="active" ariaCurrentWhenActive="page">
+              <i class="fa-solid fa-book fa-fw me-2"></i>Böcker
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/quotes" routerLinkActive="active" ariaCurrentWhenActive="page">
+              <i class="fa-solid fa-quote-left fa-fw me-2"></i>Mina citat
+            </a>
+          </li>
+        </ul>
+
+        <div class="user-area d-flex align-items-center justify-content-between gap-3">
+          <span class="navbar-text text-truncate">
+            <i class="fa-regular fa-circle-user me-1"></i>{{ auth.username() }}
+          </span>
+          <button type="button" class="btn btn-sm btn-outline-secondary text-nowrap" (click)="logout()">
+            <i class="fa-solid fa-right-from-bracket me-1"></i>Logga ut
+          </button>
+        </div>
+      } @else {
+        <ul class="navbar-nav ms-auto gap-lg-1">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login" routerLinkActive="active">
+              <i class="fa-solid fa-right-to-bracket fa-fw me-2"></i>Logga in
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/register" routerLinkActive="active">
+              <i class="fa-solid fa-user-plus fa-fw me-2"></i>Registrera
+            </a>
+          </li>
+        </ul>
+      }
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,31 @@
+// Delade stilar för inloggning och registrering
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-block: 1rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+}
+
+.auth-icon {
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background: var(--app-brand-soft);
+  color: var(--app-brand);
+}
+
+.toggle-password {
+  --bs-btn-border-color: var(--app-border);
+}
+
+.form-text i {
+  width: 1rem;
+}

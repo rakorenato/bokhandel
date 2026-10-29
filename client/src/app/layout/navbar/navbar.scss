@@ -1,0 +1,88 @@
+.app-navbar {
+  background: var(--app-navbar-bg);
+  backdrop-filter: saturate(160%) blur(10px);
+  border-bottom: 1px solid var(--app-border);
+}
+
+.brand-mark {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--app-brand);
+  color: var(--bs-body-bg);
+  font-size: 0.95rem;
+}
+
+.brand-text {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.nav-link {
+  border-radius: var(--bs-border-radius);
+  padding-inline: 0.75rem !important;
+  font-weight: 500;
+
+  &.active {
+    color: var(--app-brand) !important;
+    background: var(--app-brand-soft);
+  }
+}
+
+.btn-theme,
+.navbar-toggler {
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--app-border);
+  border-radius: 50%;
+  color: var(--bs-body-color);
+  background: transparent;
+
+  &:hover {
+    background: var(--app-brand-soft);
+  }
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 0.2rem var(--app-brand-soft);
+}
+
+// Hamburgarknappen behövs bara på mindre skärmar
+@media (min-width: 992px) {
+  .navbar-toggler {
+    display: none;
+  }
+}
+
+// Mobilmeny
+@media (max-width: 991.98px) {
+  .navbar-collapse.show {
+    padding-block: 0.75rem;
+    animation: drop 0.18s ease-out;
+  }
+
+  .nav-link {
+    padding-block: 0.65rem !important;
+  }
+
+  .user-area {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--app-border);
+  }
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}

@@ -1,0 +1,17 @@
+# Node / Angular
+node_modules/
+client/dist/
+client/.angular/
+
+# .NET
+server/bin/
+server/obj/
+*.db
+*.db-shm
+*.db-wal
+
+# Övrigt
+.DS_Store
+Thumbs.db
+.idea/
+*.user

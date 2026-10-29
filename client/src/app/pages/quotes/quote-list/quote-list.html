@@ -1,0 +1,144 @@
+<header class="page-header">
+  <div>
+    <div class="page-eyebrow"><i class="fa-solid fa-heart me-1"></i>Favoriter</div>
+    <h1 class="display-6 mb-1">Mina citat</h1>
+    @if (!loading() && !error()) {
+      <p class="text-body-secondary mb-0">
+        {{ quotes().length }} citat som betyder något
+      </p>
+    }
+  </div>
+</header>
+
+<div class="row g-4">
+  <!-- Formulär: lägg till / redigera -->
+  <div class="col-12 col-lg-4">
+    <div class="card form-card" [class.is-editing]="editing()">
+      <div class="card-body p-4">
+        <h2 class="h5 mb-3 d-flex align-items-center gap-2">
+          @if (editing()) {
+            <i class="fa-solid fa-pen-to-square text-accent"></i>Redigera citat
+          } @else {
+            <i class="fa-solid fa-plus text-brand"></i>Nytt citat
+          }
+        </h2>
+
+        @if (formError()) {
+          <div class="alert alert-danger small d-flex gap-2" role="alert">
+            <i class="fa-solid fa-circle-exclamation mt-1"></i><span>{{ formError() }}</span>
+          </div>
+        }
+
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+          <div class="mb-3">
+            <label for="quote-text" class="form-label">Citat</label>
+            <textarea #textInput id="quote-text" class="form-control" rows="4" formControlName="text"
+                      placeholder="Skriv citatet här…" [class.is-invalid]="showError('text')"
+                      [attr.maxlength]="maxLength"></textarea>
+            <div class="d-flex justify-content-between">
+              <div class="invalid-feedback d-block">
+                @if (showError('text')) {
+                  {{ c.text.hasError('maxlength') ? 'Max 500 tecken.' : 'Citatet får inte vara tomt.' }}
+                }
+              </div>
+              <small class="text-body-secondary text-nowrap mt-1">{{ c.text.value.length || 0 }}/{{ maxLength }}</small>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label for="quote-author" class="form-label">Vem sa det?</label>
+            <div class="input-group has-validation">
+              <span class="input-group-text"><i class="fa-solid fa-user-pen"></i></span>
+              <input id="quote-author" type="text" class="form-control" formControlName="author"
+                     placeholder="T.ex. Astrid Lindgren" [class.is-invalid]="showError('author')">
+              <div class="invalid-feedback">
+                {{ c.author.hasError('maxlength') ? 'Max 100 tecken.' : 'Fyll i vem som sa det.' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary" [disabled]="saving()">
+              @if (saving()) {
+                <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Sparar…
+              } @else if (editing()) {
+                <i class="fa-solid fa-floppy-disk me-2"></i>Spara ändringar
+              } @else {
+                <i class="fa-solid fa-plus me-2"></i>Lägg till citat
+              }
+            </button>
+            @if (editing()) {
+              <button type="button" class="btn btn-outline-secondary" (click)="cancelEdit()" [disabled]="saving()">
+                <i class="fa-solid fa-xmark me-2"></i>Avbryt
+              </button>
+            }
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista -->
+  <div class="col-12 col-lg-8">
+    @if (loading()) {
+      <div class="text-center py-5" role="status">
+        <div class="spinner-border text-brand" aria-hidden="true"></div>
+        <p class="mt-3 text-body-secondary">Hämtar dina citat…</p>
+      </div>
+    } @else if (error()) {
+      <div class="alert alert-danger d-flex flex-column flex-sm-row align-items-sm-center gap-3" role="alert">
+        <div class="d-flex gap-2 flex-grow-1">
+          <i class="fa-solid fa-circle-exclamation mt-1"></i><span>{{ error() }}</span>
+        </div>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="loadQuotes()">
+          <i class="fa-solid fa-rotate-right me-1"></i>Försök igen
+        </button>
+      </div>
+    } @else if (quotes().length === 0) {
+      <div class="card">
+        <div class="card-body empty-state">
+          <span class="empty-icon"><i class="fa-solid fa-quote-left"></i></span>
+          <h2 class="h4">Inga citat än</h2>
+          <p class="text-body-secondary mb-0">Lägg till ditt första favoritcitat med formuläret.</p>
+        </div>
+      </div>
+    } @else {
+      <div class="d-flex flex-column gap-3">
+        @for (quote of quotes(); track quote.id) {
+          <figure class="card quote-card mb-0" [class.is-editing]="editing()?.id === quote.id">
+            <div class="card-body d-flex gap-3">
+              <i class="fa-solid fa-quote-left quote-mark" aria-hidden="true"></i>
+              <div class="flex-grow-1 min-w-0">
+                <blockquote class="blockquote mb-2">
+                  <p class="quote-text mb-0">{{ quote.text }}</p>
+                </blockquote>
+                <figcaption class="text-body-secondary mb-0">— {{ quote.author }}</figcaption>
+              </div>
+              <div class="quote-actions d-flex flex-column flex-sm-row gap-1 align-self-start">
+                <button type="button" class="btn btn-outline-primary btn-sm btn-icon"
+                        (click)="startEdit(quote)" title="Redigera" [attr.aria-label]="'Redigera citat av ' + quote.author">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button type="button" class="btn btn-outline-danger btn-sm btn-icon"
+                        (click)="askDelete(quote)" title="Radera" [attr.aria-label]="'Radera citat av ' + quote.author">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
+            </div>
+          </figure>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+<app-confirm-dialog
+  [open]="!!quoteToDelete()"
+  title="Radera citat?"
+  confirmText="Radera citat"
+  [busy]="deleting()"
+  (confirmed)="confirmDelete()"
+  (cancelled)="quoteToDelete.set(null)">
+  <p class="mb-2">Vill du ta bort det här citatet?</p>
+  <p class="fst-italic text-body-secondary mb-0">"{{ quoteToDelete()?.text }}"</p>
+</app-confirm-dialog>

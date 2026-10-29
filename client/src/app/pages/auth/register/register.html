@@ -1,0 +1,93 @@
+<div class="auth-wrapper">
+  <div class="card auth-card">
+    <div class="card-body p-4 p-sm-5">
+      <div class="text-center mb-4">
+        <span class="auth-icon"><i class="fa-solid fa-user-plus"></i></span>
+        <h1 class="h3 mt-3 mb-1">Skapa konto</h1>
+        <p class="text-body-secondary mb-0">Det tar bara några sekunder.</p>
+      </div>
+
+      @if (error()) {
+        <div class="alert alert-danger d-flex gap-2" role="alert">
+          <i class="fa-solid fa-circle-exclamation mt-1"></i>
+          <span>{{ error() }}</span>
+        </div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <!-- Användarnamn -->
+        <div class="mb-3">
+          <label for="reg-username" class="form-label">Användarnamn</label>
+          <div class="input-group has-validation">
+            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+            <input id="reg-username" type="text" class="form-control" formControlName="username"
+                   autocomplete="username" autocapitalize="none" [class.is-invalid]="showError('username')"
+                   aria-describedby="username-help">
+            <div class="invalid-feedback">
+              @if (c.username.hasError('required')) {
+                Välj ett användarnamn.
+              } @else if (c.username.hasError('minlength') || c.username.hasError('maxlength')) {
+                Användarnamnet måste vara 3–30 tecken.
+              } @else if (c.username.hasError('pattern')) {
+                Bara bokstäver a–z, siffror, punkt, bindestreck och understreck.
+              }
+            </div>
+          </div>
+          <div id="username-help" class="form-text">3–30 tecken, utan mellanslag.</div>
+        </div>
+
+        <!-- Lösenord -->
+        <div class="mb-3">
+          <label for="reg-password" class="form-label">Lösenord</label>
+          <div class="input-group has-validation">
+            <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+            <input id="reg-password" [type]="showPassword() ? 'text' : 'password'" class="form-control"
+                   formControlName="password" autocomplete="new-password" [class.is-invalid]="showError('password')">
+            <button type="button" class="btn btn-outline-secondary toggle-password" (click)="showPassword.set(!showPassword())"
+                    [attr.aria-label]="showPassword() ? 'Dölj lösenord' : 'Visa lösenord'">
+              <i class="fa-regular" [class.fa-eye]="!showPassword()" [class.fa-eye-slash]="showPassword()"></i>
+            </button>
+            <div class="invalid-feedback">
+              @if (c.password.hasError('required')) {
+                Välj ett lösenord.
+              } @else {
+                Lösenordet måste vara minst 6 tecken.
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Upprepa lösenord -->
+        <div class="mb-4">
+          <label for="reg-confirm" class="form-label">Upprepa lösenord</label>
+          <div class="input-group has-validation">
+            <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+            <input id="reg-confirm" [type]="showPassword() ? 'text' : 'password'" class="form-control"
+                   formControlName="confirmPassword" autocomplete="new-password"
+                   [class.is-invalid]="showError('confirmPassword') || mismatch">
+            <div class="invalid-feedback">
+              @if (c.confirmPassword.hasError('required')) {
+                Upprepa lösenordet.
+              } @else {
+                Lösenorden matchar inte.
+              }
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="loading()">
+          @if (loading()) {
+            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Skapar konto…
+          } @else {
+            <i class="fa-solid fa-user-check me-2"></i>Skapa konto
+          }
+        </button>
+      </form>
+
+      <hr class="my-4">
+      <p class="text-center mb-0">
+        Har du redan ett konto? <a routerLink="/login" class="fw-semibold">Logga in</a>
+      </p>
+    </div>
+  </div>
+</div>

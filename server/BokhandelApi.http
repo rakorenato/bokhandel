@@ -1,0 +1,35 @@
+### Testa API:t direkt från VS Code (tillägget "REST Client")
+@api = http://localhost:5000/api
+
+### 1. Registrera
+POST {{api}}/auth/register
+Content-Type: application/json
+
+{ "username": "testare", "password": "hemligt123" }
+
+### 2. Logga in – kopiera "token" från svaret till @token nedan
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{ "username": "testare", "password": "hemligt123" }
+
+###
+@token = KLISTRA_IN_TOKEN_HÄR
+
+### 3. Utan token -> 401
+GET {{api}}/books
+
+### 4. Med token -> 200
+GET {{api}}/books
+Authorization: Bearer {{token}}
+
+### 5. Skapa bok
+POST {{api}}/books
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "title": "Röda rummet", "author": "August Strindberg", "publishedDate": "1879-11-01", "genre": "Roman" }
+
+### 6. Hämta citat
+GET {{api}}/quotes
+Authorization: Bearer {{token}}
