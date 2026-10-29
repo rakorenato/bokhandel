@@ -6,8 +6,8 @@ En responsiv CRUD-webbapplikation där inloggade användare kan hantera sina bö
 - **Backend:** .NET 9 Web API (C#), Entity Framework Core med SQLite
 - **Inloggning:** JWT (JSON Web Tokens), lösenord hashade med BCrypt
 
-**Publicerad sida:** _lägg till länk här_
-**API:** _lägg till länk här_
+**Publicerad sida:** https://bokhandel-renato.netlify.app
+**API:** https://bokhandel.onrender.com
 
 ---
 
